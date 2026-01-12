@@ -1,33 +1,39 @@
 import os
 import keyboard
+
+def main():
 # -------- file management functions --------
 
-def change_directory(event, path):
-    try:
-        print("input the path you want to change too!")
-        input_path = input("Enter path:")
-        os.chdir(input_path)
-        print(f"changed directory too: {input_path}")
-    except FileNotFoundError:
+ def change_directory(event, path):
+     try:
+         print("input the path you want to change too!")
+         input_path = input("Enter path:")
+         os.chdir(input_path)
+         print(f"changed directory too: {input_path}")
+         keyboard.wait('esc')
+     except FileNotFoundError:
         print("Error: ! the path was not found.")
+     except KeyboardInterrupt:
+      print("Going back to main menu")
+      main()
 
 
-def list_files_in_path():
+ def list_files_in_path(event, list):
     file_list = os.listdir(".")
     print("Files in the current directory:")
     for file_name in file_list:
       print(file_name)
+    
+ def create_directory(event, dir_name):
+     try:
+         print("input a name for the directory!")
+         input_name = input("Enter:")
+         os.makedirs(input_name)
+         print(f"Directory '{input_name}' created successfully")
+     except FileNotFoundError:
+         print("Error: ! the path was not found.")
 
-def create_directory(dir_name):
-    try:
-        print("input a name for the directory!")
-        input_name = input("Enter:")
-        os.makedirs(input_name)
-        print(f"Directory '{input_name}' created successfully")
-    except FileNotFoundError:
-        print("Error: ! the path was not found.")
-
-def remove_directory(dir_name):
+ def remove_directory(event, dir_name):
     try:
         print("input a name for the directory to remove!")
         input_name = input("Enter:")
@@ -36,7 +42,7 @@ def remove_directory(dir_name):
     except FileNotFoundError:
         print("Error: ! the path was not found.")
 
-def rename_directory(old_name, new_name):
+ def rename_directory(event, old_name, new_name):
     try:
         print("input the current name of the directory!")
         input_old_name = input("Enter current name:")
@@ -47,7 +53,7 @@ def rename_directory(old_name, new_name):
     except FileNotFoundError:   
         print("Error: ! the path was not found.")
 
-def open_file(file_name):
+ def open_file(file_name):
     try:
         print("input the file name to open!")
         input_name = input("Enter file name:")
@@ -57,7 +63,7 @@ def open_file(file_name):
     except FileNotFoundError:
         print("Error: ! the file was not found.")
 
-def remove_file(file_name):
+ def remove_file(event, file_name):
     try:
         print("input the name of the file to remove !")
         input_name = input("Enter file name:")
@@ -66,16 +72,38 @@ def remove_file(file_name):
     except FileNotFoundError:   
         print("Error: ! the file was not found.")
 
+# ------- working kind of ---------
+
+ def handle_keypress(event):
+    #if event.name == 'e':
+    choice = event.name
+    if "e" in choice:
+        change_directory(event, path="")
+    if "a" in choice:
+        list_files_in_path(event, list="")
+    else:
+     main()
+
+# -----------------------------------
+
 # -------- function working examples --------
 
 # -------- main menu ---------
-keybind_list = {"A": "Change directory", "B": "List files in path", "3.": "Git", "4.": "System Info", "5.": "Change Username", "6.": "Exit"}
-print("File Management System")
-keyboard.add_hotkey('a+1', change_directory)
-keyboard.wait('esc')
+ def mu():
+  keybind_list = {"A": "Change directory", "B": "List files in path", "3.": "Git", "4.": "System Info", "5.": "Change Username", "6.": "Exit"}
+  print("File Management System")
+#keyboard.add_hotkey('a', list_files_in_path, args =(list))
+ #keyboard.on_press(lambda e: change_directory(e, path=""))
+ #keyboard.on_press(lambda a: list_files_in_path(a, list=""))
+
+ #keyboard.on_press(lambda b: create_directory(b, dir_name=""))
+  keyboard.on_press(handle_keypress)
+  keyboard.wait('esc')
 # -------- working progress ---------
 
 #create_directory(dir_name="")
 #rename_directory(old_name="", new_name="")
 #remove_file(file_name="")
-list_files_in_path()
+ 
+ mu()
+main()
