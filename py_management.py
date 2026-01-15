@@ -71,16 +71,22 @@ def main():
         print(f"File '{input_name}' removed successfully")
     except FileNotFoundError:   
         print("Error: ! the file was not found.")
-
+          
 # ------- working kind of ---------
 
  def handle_keypress(event):
     #if event.name == 'e':
     choice = event.name
-    if "e" in choice:
-        change_directory(event, path="")
     if "a" in choice:
+        change_directory(event, path="")
+    if "b" in choice:
         list_files_in_path(event, list="")
+    if "c" in choice:
+       create_directory(event, dir_name="")
+    if "d" in choice:
+       remove_directory(event, dir_name="")
+    if "e" in choice:
+       rename_directory(event, old_name="", new_name="")
     else:
      main()
 
@@ -90,7 +96,7 @@ def main():
 
 # -------- main menu ---------
  def mu():
-  keybind_list = {"A": "Change directory", "B": "List files in path", "3.": "Git", "4.": "System Info", "5.": "Change Username", "6.": "Exit"}
+  keybind_list = {"A": "Change directory", "B": "List files in path", "C": "Create Directory", "D": "Remove_Directory", "5.": "Change Username", "6.": "Exit"}
   print("File Management System")
 #keyboard.add_hotkey('a', list_files_in_path, args =(list))
  #keyboard.on_press(lambda e: change_directory(e, path=""))
