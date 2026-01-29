@@ -83,6 +83,15 @@ class ApplicationCore:
 
 # -------- main menu ---------
      def main_menu(self): 
+      while True:  # making a loop
+       try:  # used try so that if user pressed other than the given key error will not be shown
+          if keyboard.is_pressed('q'):  # if key 'q' is pressed 
+            print('You Pressed A Key!')
+          if keyboard.is_pressed('a'):
+            self.change_directory()
+            break  # finishing the loop
+       except:
+        break
       keybind_list = { 
             'A': "Change directory", 
             'B': "List files in path", 
@@ -91,17 +100,12 @@ class ApplicationCore:
             '5': "Change Username", 
             '6': "Exit" 
         }
+      exec = {
+       self.change_directory(event="", path="")
+      }
       print("File Management System")
-      for key, action in keybind_list.items():
-        print(f"{key}: {action}")
- 
-     while True:  # making a loop
-       try:  # used try so that if user pressed other than the given key error will not be shown
-          if keyboard.is_pressed('q'):  # if key 'q' is pressed 
-            print('You Pressed A Key!')
-            break  # finishing the loop
-       except:
-        break
+      for key, action in exec():
+       print({key},{action})
 # -------- working progress ---------
 
 #create_directory(dir_name="")
